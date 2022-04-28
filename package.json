@@ -1,0 +1,22 @@
+{
+  "name": "wtat-lvlup",
+  "version": "1.0.0",
+  "description": "A league of legends app that helps you keep track of your ingame stats, as well as check your teammates' stats while in the lobby.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maginkaaa/WTAT-lvlup.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maginkaaa/WTAT-lvlup/issues"
+  },
+  "homepage": "https://github.com/maginkaaa/WTAT-lvlup#readme",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
