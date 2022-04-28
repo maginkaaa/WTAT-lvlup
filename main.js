@@ -3,9 +3,10 @@ const port = 3000,
  app = express();
 
 
- if (url.indexOf(".html") !== -1) {
-res.writeHead(httpStatus.OK, {
-"Content-Type": "text/html"
+
+
+app.get("/champion-stats/", (req, res) => {
+  res.sendFile('champion-stats.html', {root : __dirname} )
 });
 
 app.get("/champion-stats/champion/:id", (req, res) => {
