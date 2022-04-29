@@ -24,7 +24,7 @@ app.get("/champion-stats/champion/:id", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    // own profile
+    // own profile (response with html file for now)
     res.sendFile("profile.html", {root : __dirname})
 });
 
