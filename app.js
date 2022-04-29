@@ -1,4 +1,5 @@
 "use strict";
+// handles all the express functions
 const port = 3000,
 express = require("express"),
 app = express();
@@ -13,10 +14,29 @@ app.get("/champion-stats/champion/", async (req, res) => {
   res.send(data);
 });
 
+app.get("/champion-stats/", async (req, res) => {
+  const response = await fetch(api_url);
+  let data = await response.json();
+  res.send(data);
+});
+
 app.get("/champion-stats/champion/:id", async (req, res) => {
   const response = await fetch(api_url);
   let data = await response.json();
   res.send(data);
+});
+
+app.get("/profile", (req, res) => {
+    res.send("Edite your Profile here")
+});
+
+app.get("/profile/:summonerName", (req, res) => {
+    var name = req.params.summonerName;
+    res.send("Profile of User by summonerName")
+});
+
+app.get("/own-stats", (req, res) => {
+    res.send("Your own game-stats")
 });
 
 app.listen(port, () => {
