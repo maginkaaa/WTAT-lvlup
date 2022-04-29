@@ -1,4 +1,5 @@
 "use strict";
+// handles all the express functions
 const port = 3000,
 express = require("express"),
 app = express();
