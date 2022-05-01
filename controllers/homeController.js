@@ -26,12 +26,14 @@ exports.sendHtmlFile = (req, res) => {
 exports.postContent = (req, res) => {
     console.log(req.body);
     console.log(req.query);
-    res.send("Test");
+    res.send("Posted Content here");
 }
 
 exports.respondWithId = (req, res) => {
     let paramsId = req.params.id
     res.render("index", { name: paramsId});
 }
+
+
 
 
