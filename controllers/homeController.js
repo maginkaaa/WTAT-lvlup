@@ -20,7 +20,7 @@ exports.sendApiData = async (req, res) => {
 };
 
 exports.sendHtmlFile = (req, res) => {
-    res.sendFile("index.html", {root  : (__dirname, "./views")})
+    res.sendFile("//PLACEHOLDER", {root  : (__dirname, "./views")})
 }
 
 exports.postContent = (req, res) => {
@@ -29,10 +29,13 @@ exports.postContent = (req, res) => {
     res.send("Posted Content here");
 }
 
-exports.respondWithId = (req, res) => {
-    let paramsId = req.params.id
-    res.render("index", { name: paramsId});
+exports.renderPage = (req, res) => {
+    let paramsId = req.params.id;
+    let paramsName = req.params.summonerName;
+    res.render("index", { name: paramsName, id: paramsId});
 }
+
+
 
 
 
