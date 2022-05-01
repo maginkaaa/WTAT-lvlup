@@ -4,6 +4,7 @@ express = require("express"),
 app = express();
 const controller= require("./controllers/homeController.js")
 const errorController = require("./controllers/errorController.js")
+const server = require("./server.js")
 const layouts = require("express-ejs-layouts")
 app.use(express.json()),
 app.use(express.static(__dirname + "/public")),
@@ -42,7 +43,7 @@ app.get("/profile/", controller.sendApiData);
 
 app.get("/profile/:summonerName/", controller.sendApiData);
 
-//app.get("/", controller.renderPage);
+app.get("/", controller.renderPage);
 
 app.get("/:summonerName/:id", controller.renderPage);
 
