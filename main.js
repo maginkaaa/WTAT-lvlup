@@ -49,6 +49,6 @@ app.get("/:summonerName/:id", controller.renderPage);
 // post content (curl for now)
 app.post("/post", controller.postContent);
 
-// needs to be after route definition calls
+// needs to be after get calls
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
