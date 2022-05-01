@@ -3,10 +3,14 @@ const port = 3000,
 express = require("express"),
 app = express();
 const controller= require("./controllers/homeController.js")
+const errorController = require("./controllers/errorController.js")
 const layouts = require("express-ejs-layouts")
-const api_key = "RGAPI-e296c3d6-6f85-44d5-ba87-14931d0b096c";
-const api_url = "https://europe.api.riotgames.com/lol/match/v5/matches/EUW1_5583464608/" + "?api_key=" + api_key;
-app.set("view engine", "ejs")
+app.use(express.json()),
+app.use(express.static(__dirname + "/public")),
+app.use(layouts),
+app.set("views", (__dirname + "/views")),
+app.set("view engine", "ejs"),
+
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
@@ -26,9 +30,7 @@ app.use(
     })
 );
 
-app.use(express.json());
 
-app.use(layouts);
 
 app.get("/champion-stats/:championName/:id", controller.sendReqParam);
 
@@ -40,8 +42,13 @@ app.get("/profile/", controller.sendApiData);
 
 app.get("/profile/:summonerName/", controller.sendApiData);
 
-app.get("/index/", controller.sendHtmlFile);
+//app.get("/", controller.renderPage);
 
-app.get("/:id", controller.respondWithId);
+app.get("/:summonerName/:id", controller.renderPage);
 
-app.post("/", controller.postContent);
+// post content (curl for now)
+app.post("/post", controller.postContent);
+
+// needs to be after route definition calls
+app.use(errorController.respondNoResourceFound);
+app.use(errorController.respondInternalError);
