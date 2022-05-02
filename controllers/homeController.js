@@ -45,8 +45,14 @@ exports.renderPage = async (req, res) => {
     if (Object.values(regions).includes(req.query.region))
         region = req.query.region;
         
-
     let summoner = await api.getSummonerByName(summonerName, region);
+
+    let matches = await api.getMatchIdsBySummoner(summoner, null, null, null, null, null);
+    matches.forEach(async match => {
+        let m = await api.getMatchByMatchId(match, summoner.region);
+        console.log(m.gameMode);
+    });
+
     res.render("index", { name: summonerName, summoner: summoner});
 }
 

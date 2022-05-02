@@ -1,8 +1,11 @@
 const fetch = require("node-fetch");
 
 const Summoner = require('./summoner.js');
-const Endpoints = require('./endpoints.js');
+const PlatformEndpoints = require('./platformEndpoints.js');
+const RegionalEndpoints = require('./regionalEndpoints.js');
 const regions = require("./regions.js");
+const Match = require("./match.js");
+const Http = require("./http.js");
 
 class Api {
 
@@ -13,6 +16,8 @@ class Api {
 
         this.key = args[2];
 
+        this.http = new Http();
+
         (async () => {
             await this.checkStatus();
           })();
@@ -22,8 +27,9 @@ class Api {
         const regionsList = Object.values(regions);
 
         for (let i = 0; i < regionsList.length; i++) {
-            const endpoint = new Endpoints(regionsList[i]);
-            const response = await fetch(endpoint.getStatus(this.key));
+            const endpoint = new PlatformEndpoints(regionsList[i]);
+            const request = endpoint.getStatus(this.key);
+            const response = await this.http.request(request);
             let data = await response.json();
             
             if ("status" in data && data.status.status_code == 403)
@@ -39,9 +45,10 @@ class Api {
     }
 
     async getSummonerByName(name, region) {
-        const endpoint = new Endpoints(region);
+        const endpoint = new PlatformEndpoints(region);
         
-        const response = await fetch(endpoint.getSummoner(name, this.key));
+        const request = endpoint.getSummoner(name, this.key);
+        const response = await this.http.request(request);
         let data = await response.json();
         
         if ("status" in data && data.status.status_code == 404)
@@ -51,12 +58,32 @@ class Api {
     }
 
     async updateRankBySummoner(summoner) {
-        const endpoint = new Endpoints(summoner.region);
+        const endpoint = new PlatformEndpoints(summoner.region);
 
-        const response = await fetch(endpoint.getRank(summoner.id, this.key));
+        const request = endpoint.getRank(summoner.id, this.key);
+        const response = await this.http.request(request);
         let data = await response.json();
         summoner.updateRank(data);
         return summoner;
+    }
+
+    async getMatchIdsBySummoner(summoner, startTime, endTime, queue, type, count) {
+        const endpoint = new RegionalEndpoints(summoner.region);
+
+        const request = endpoint.getMatchIds(summoner.puuid, startTime, endTime, queue, type, count, this.key);
+        const response = await this.http.request(request);
+        let data = await response.json();
+        return data;
+    }
+
+    async getMatchByMatchId(matchId, region) {
+        const endpoint = new RegionalEndpoints(region);
+
+        const request = endpoint.getMatch(matchId, this.key);
+        const response = await this.http.request(request);
+        let data = await response.json();
+        let match = new Match(data);
+        return match;
     }
 }
 

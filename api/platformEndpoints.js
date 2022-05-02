@@ -1,6 +1,7 @@
 const regions = require('./regions.js');
+const Request = require("./request.js");
 
-class Endpoints {
+class PlatformEndpoints {
 
     constructor(region) {
         switch (region) {
@@ -43,16 +44,16 @@ class Endpoints {
     }
 
     getStatus(key) {
-        return `${this.host}/lol/status/v4/platform-data?api_key=${key}`;
+        return new Request(this.host, `/lol/status/v4/platform-data`, key);
     }
 
     getSummoner(name, key) {
-        return `${this.host}/lol/summoner/v4/summoners/by-name/${name}/?api_key=${key}`;
+        return new Request(this.host, `/lol/summoner/v4/summoners/by-name/${name}/`, key);
     }
 
     getRank(id, key) {
-        return `${this.host}/lol/league/v4/entries/by-summoner/${id}/?api_key=${key}`;
+        return new Request(this.host, `/lol/league/v4/entries/by-summoner/${id}/`, key);
     }
 }
 
-module.exports = Endpoints;
+module.exports = PlatformEndpoints;
