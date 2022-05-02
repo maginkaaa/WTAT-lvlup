@@ -82,8 +82,7 @@ class Api {
         const request = endpoint.getMatch(matchId, this.key);
         const response = await this.http.request(request);
         let data = await response.json();
-        let match = new Match(data);
-        return match;
+        return new Match(data);
     }
 }
 
