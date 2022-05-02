@@ -41,7 +41,7 @@ exports.postContent = (req, res) => {
 
 exports.renderPage = async (req, res) => {
     let paramsId = req.params.id;
-    const summoner = await api.getSummonerByName(paramsId, regions.EUROPE_WEST);
+    let summoner = await api.getSummonerByName(paramsId, regions.EUROPE_WEST);
     res.render("index", { name: paramsId, summoner: summoner});
 }
 
