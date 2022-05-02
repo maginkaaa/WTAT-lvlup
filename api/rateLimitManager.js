@@ -1,6 +1,9 @@
 class RateLimitManager {
 
     constructor() {
+        this.requestsPerSec = 19;
+        this.requestsPerTwoMin = 99;
+
         this.timestampsSec = {
             "https://americas.api.riotgames.com": 0,
             "https://europe.api.riotgames.com": 0,
@@ -93,10 +96,10 @@ class RateLimitManager {
         }
 
         let wait = 0;
-        if (this.countSec[host] >= 19)
+        if (this.countSec[host] >= this.requestsPerSec)
             wait = (this.timestampsSec[host] + 1000) - timestamp;
 
-        if (this.countMin[host] >= 99)
+        if (this.countMin[host] >= this.requestsPerTwoMin)
             wait = (this.timestampsMin[host] + 120000) - timestamp;
             
         await new Promise(r => setTimeout(r, wait));;
