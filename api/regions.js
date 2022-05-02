@@ -12,4 +12,4 @@ const regions = {
     JAPAN: 'jp',
 }
 
-module.export = regions;
+module.exports = regions;
