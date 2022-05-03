@@ -1,11 +1,11 @@
 const fetch = require("node-fetch");
 
 const Summoner = require('./summoner.js');
-const PlatformEndpoints = require('./platformEndpoints.js');
-const RegionalEndpoints = require('./regionalEndpoints.js');
+const PlatformEndpoints = require('./endpoints/platformEndpoints.js');
+const RegionalEndpoints = require('./endpoints/regionalEndpoints.js');
 const regions = require("./regions.js");
-const Match = require("./match.js");
-const Http = require("./http.js");
+const Match = require("./match/match.js");
+const Http = require("./http/http.js");
 
 class Api {
 
@@ -19,16 +19,29 @@ class Api {
         this.http = new Http();
 
         (async () => {
+            await this.fetchAssets();
             await this.checkStatus();
           })();
+    }
+
+    async fetchAssets() {
+        let response = await fetch(`http://ddragon.leagueoflegends.com/cdn/12.7.1/data/en_US/runesReforged.json`);
+        this.assets = {};
+        this.assets.runes = await response.json();
+
+        response = await fetch(`http://ddragon.leagueoflegends.com/cdn/12.8.1/data/en_US/summoner.json`);
+        this.assets.summoner = await response.json();
+
+        response = await fetch(`https://static.developer.riotgames.com/docs/lol/queues.json`);
+        this.assets.queues = await response.json();
     }
 
     async checkStatus() {
         const regionsList = Object.values(regions);
 
         for (let i = 0; i < regionsList.length; i++) {
-            const endpoint = new PlatformEndpoints(regionsList[i]);
-            const request = endpoint.getStatus(this.key);
+            const endpoint = new PlatformEndpoints(regionsList[i], this.key);
+            const request = endpoint.getStatus();
             const response = await this.http.request(request);
             let data = await response.json();
             
@@ -45,9 +58,9 @@ class Api {
     }
 
     async getSummonerByName(name, region) {
-        const endpoint = new PlatformEndpoints(region);
+        const endpoint = new PlatformEndpoints(region, this.key);
         
-        const request = endpoint.getSummoner(name, this.key);
+        const request = endpoint.getSummoner(name);
         const response = await this.http.request(request);
         let data = await response.json();
         
@@ -58,9 +71,9 @@ class Api {
     }
 
     async updateRankBySummoner(summoner) {
-        const endpoint = new PlatformEndpoints(summoner.region);
+        const endpoint = new PlatformEndpoints(summoner.region, this.key);
 
-        const request = endpoint.getRank(summoner.id, this.key);
+        const request = endpoint.getRank(summoner.id);
         const response = await this.http.request(request);
         let data = await response.json();
         summoner.updateRank(data);
@@ -68,21 +81,21 @@ class Api {
     }
 
     async getMatchIdsBySummoner(summoner, startTime, endTime, queue, type, count) {
-        const endpoint = new RegionalEndpoints(summoner.region);
+        const endpoint = new RegionalEndpoints(summoner.region, this.key);
 
-        const request = endpoint.getMatchIds(summoner.puuid, startTime, endTime, queue, type, count, this.key);
+        const request = endpoint.getMatchIds(summoner.puuid, startTime, endTime, queue, type, count);
         const response = await this.http.request(request);
         let data = await response.json();
         return data;
     }
 
     async getMatchByMatchId(matchId, region) {
-        const endpoint = new RegionalEndpoints(region);
+        const endpoint = new RegionalEndpoints(region, this.key);
 
-        const request = endpoint.getMatch(matchId, this.key);
+        const request = endpoint.getMatch(matchId);
         const response = await this.http.request(request);
         let data = await response.json();
-        return new Match(data);
+        return new Match(data, this.assets);
     }
 }
 

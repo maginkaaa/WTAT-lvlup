@@ -1,6 +1,5 @@
 const Api = require('./api.js');
 
-
 class Summoner {
 
     constructor(data, region) {
@@ -14,7 +13,7 @@ class Summoner {
         this.region = region;
     }
 
-    getIconLink() {
+    getProfileIcon() {
         return `http://ddragon.leagueoflegends.com/cdn/12.8.1/img/profileicon/${this.profileIconId}.png`;
     }
 

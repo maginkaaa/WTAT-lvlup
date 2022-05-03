@@ -47,10 +47,10 @@ exports.renderPage = async (req, res) => {
         
     let summoner = await api.getSummonerByName(summonerName, region);
 
-    let matches = await api.getMatchIdsBySummoner(summoner, null, null, null, null, null);
+    let matches = await api.getMatchIdsBySummoner(summoner, null, null, null, null, 1);
     matches.forEach(async match => {
         let m = await api.getMatchByMatchId(match, summoner.region);
-        //console.log(m.gameMode);
+        console.log(m.queueName);
     });
 
     res.render("index", { name: summonerName, summoner: summoner});

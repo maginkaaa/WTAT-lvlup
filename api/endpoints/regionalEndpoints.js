@@ -1,9 +1,9 @@
-const regions = require('./regions.js');
-const Request = require("./request.js");
+const regions = require('../regions.js');
+const Request = require("../http/request.js");
 
 class RegionalEndpoints {
 
-    constructor(region) {
+    constructor(region, key) {
         switch (region) {
             case regions.BRAZIL:
                 this.host = "https://americas.api.riotgames.com";
@@ -41,10 +41,11 @@ class RegionalEndpoints {
             default:
                 this.host = "https://euw1.api.riotgames.com";
           }
+        this.key = key;
     }
 
-    getMatchIds(puuid, startTime, endTime, queue, type, count, key) {
-        let parameters = ""
+    getMatchIds(puuid, startTime, endTime, queue, type, count) {
+        let parameters = "?"
         if (startTime != null)
             parameters += `startTime=${startTime}&`;
         if (endTime != null)
@@ -56,11 +57,11 @@ class RegionalEndpoints {
         if (count != null)
             parameters += `count=${count}&`;
 
-        return new Request(this.host, `/lol/match/v5/matches/by-puuid/${puuid}/ids${parameters}`, key);
+        return new Request(this.host, `/lol/match/v5/matches/by-puuid/${puuid}/ids${parameters}`, this.key);
     }
 
-    getMatch(matchId, key) {
-        return new Request(this.host, `/lol/match/v5/matches/${matchId}`, key);
+    getMatch(matchId) {
+        return new Request(this.host, `/lol/match/v5/matches/${matchId}?`, this.key);
     }
 }
 

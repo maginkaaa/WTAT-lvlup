@@ -105,7 +105,6 @@ class RateLimitManager {
         if (this.countMin[host] > this.requestsPerTwoMin) {
             wait += this.timestampsMin[host] + 120000 - timestamp + (120000 * (this.countMin[host] / this.requestsPerTwoMin));
         }
-
         await new Promise(r => setTimeout(r, wait));
     }
 }
