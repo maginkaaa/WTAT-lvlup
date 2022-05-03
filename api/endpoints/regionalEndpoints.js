@@ -1,5 +1,5 @@
 const regions = require('../regions.js');
-const Request = require("../request.js");
+const Request = require("../http/request.js");
 
 class RegionalEndpoints {
 

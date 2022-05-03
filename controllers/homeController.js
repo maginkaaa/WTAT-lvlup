@@ -51,7 +51,6 @@ exports.renderPage = async (req, res) => {
     matches.forEach(async match => {
         let m = await api.getMatchByMatchId(match, summoner.region);
         console.log(m.queueName);
-        console.log(m.mapName);
     });
 
     res.render("index", { name: summonerName, summoner: summoner});
