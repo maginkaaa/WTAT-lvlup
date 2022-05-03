@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
 
 const Summoner = require('./summoner.js');
-const PlatformEndpoints = require('./platformEndpoints.js');
-const RegionalEndpoints = require('./regionalEndpoints.js');
+const PlatformEndpoints = require('./endpoints/platformEndpoints.js');
+const RegionalEndpoints = require('./endpoints/regionalEndpoints.js');
 const regions = require("./regions.js");
 const Match = require("./match.js");
 const Http = require("./http.js");

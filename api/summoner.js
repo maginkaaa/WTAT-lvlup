@@ -1,6 +1,5 @@
 const Api = require('./api.js');
 
-
 class Summoner {
 
     constructor(data, region) {
