@@ -10,8 +10,7 @@ class Http {
 
     async request(request) {
         await this.rateLimitManager.checkRateLimit(request.host);
-        
-        return await fetch(`${request.host}${request.route}?api_key=${request.key}`)
+        return await fetch(`${request.host}${request.route}api_key=${request.key}`);
     }
 }
 

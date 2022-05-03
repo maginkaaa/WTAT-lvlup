@@ -3,7 +3,7 @@ const Request = require("./request.js");
 
 class PlatformEndpoints {
 
-    constructor(region) {
+    constructor(region, key) {
         switch (region) {
             case regions.BRAZIL:
                 this.host = "https://br1.api.riotgames.com";
@@ -41,18 +41,19 @@ class PlatformEndpoints {
             default:
                 this.host = "https://euw1.api.riotgames.com";
           }
+        this.key = key;
     }
 
-    getStatus(key) {
-        return new Request(this.host, `/lol/status/v4/platform-data`, key);
+    getStatus() {
+        return new Request(this.host, `/lol/status/v4/platform-data?`, this.key);
     }
 
-    getSummoner(name, key) {
-        return new Request(this.host, `/lol/summoner/v4/summoners/by-name/${name}/`, key);
+    getSummoner(name) {
+        return new Request(this.host, `/lol/summoner/v4/summoners/by-name/${name}/?`, this.key);
     }
 
-    getRank(id, key) {
-        return new Request(this.host, `/lol/league/v4/entries/by-summoner/${id}/`, key);
+    getRank(id) {
+        return new Request(this.host, `/lol/league/v4/entries/by-summoner/${id}/?`, this.key);
     }
 }
 
