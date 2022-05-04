@@ -50,12 +50,12 @@ exports.renderPage = async (req, res) => {
     let matches = await api.getMatchIdsBySummoner(summoner, null, null, null, null, 1);
     matches.forEach(async match => {
         let m = await api.getMatchByMatchId(match, summoner.region);
-        console.log(m.queueName);
+        console.log(m.blueTeam.participants[0].getSummonerSpells());
     });
 
     let match = await api.getLiveMatchBySummoner(summoner);
     if (match != null)
-        console.log(match.blueTeam.participants[0].getRunes());
+        console.log(match.blueTeam.participants[0].getSummonerSpells());
     else
         console.log("Not in a match");
 
