@@ -55,6 +55,10 @@ class PlatformEndpoints {
     getRank(id) {
         return new Request(this.host, `/lol/league/v4/entries/by-summoner/${id}/?`, this.key);
     }
+
+    getLiveMatch(summonerId) {
+        return new Request(this.host, `/lol/spectator/v4/active-games/by-summoner/${summonerId}/?`, this.key);
+    }
 }
 
 module.exports = PlatformEndpoints;

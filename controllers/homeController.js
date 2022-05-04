@@ -53,11 +53,11 @@ exports.renderPage = async (req, res) => {
         console.log(m.queueName);
     });
 
+    let match = await api.getLiveMatchBySummoner(summoner);
+    if (match != null)
+        console.log(match.blueTeam.participants[0].getRunes());
+    else
+        console.log("Not in a match");
+
     res.render("index", { name: summonerName, summoner: summoner});
 }
-
-
-
-
-
-
