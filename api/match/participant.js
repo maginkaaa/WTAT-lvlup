@@ -95,14 +95,10 @@ class Participant {
 
     getSummonerSpells() {
         let images = [];
-        Object.values(this.assets.summoner.data).forEach(summoner => {
-            if (summoner.key == `${this.summoner1Id}`)
-                images.push(`http://ddragon.leagueoflegends.com/cdn/12.8.1/img/spell/${summoner.id}.png`)
-        });
-        Object.values(this.assets.summoner.data).forEach(summoner => {
-            if (summoner.key == `${this.summoner2Id}`)
-                images.push(`http://ddragon.leagueoflegends.com/cdn/12.8.1/img/spell/${summoner.id}.png`)
-        });
+        const summoner1 = Object.values(this.assets.summoner.data).find(summoner => summoner.key == `${this.summoner1Id}`);
+        images.push(`http://ddragon.leagueoflegends.com/cdn/12.8.1/img/spell/${summoner1.id}.png`)
+        const summoner2 = Object.values(this.assets.summoner.data).find(summoner => summoner.key == `${this.summoner2Id}`);
+        images.push(`http://ddragon.leagueoflegends.com/cdn/12.8.1/img/spell/${summoner2.id}.png`)
         return images;
     }
 

@@ -6,6 +6,7 @@ const RegionalEndpoints = require('./endpoints/regionalEndpoints.js');
 const regions = require("./regions.js");
 const Match = require("./match/match.js");
 const Http = require("./http/http.js");
+const LiveMatch = require("./match/liveMatch.js");
 
 class Api {
 
@@ -34,6 +35,9 @@ class Api {
 
         response = await fetch(`https://static.developer.riotgames.com/docs/lol/queues.json`);
         this.assets.queues = await response.json();
+
+        response = await fetch(`http://ddragon.leagueoflegends.com/cdn/12.8.1/data/en_US/champion.json`);
+        this.assets.champions = await response.json();
     }
 
     async checkStatus() {
@@ -95,7 +99,24 @@ class Api {
         const request = endpoint.getMatch(matchId);
         const response = await this.http.request(request);
         let data = await response.json();
+
+        if ("status" in data && data.status.status_code == 404)
+            return null;
+            
         return new Match(data, this.assets);
+    }
+
+    async getLiveMatchBySummoner(summoner) {
+        const endpoint = new PlatformEndpoints(summoner.region, this.key);
+
+        const request = endpoint.getLiveMatch(summoner.id);
+        const response = await this.http.request(request);
+        let data = await response.json();
+
+        if ("status" in data && data.status.status_code == 404)
+            return null;
+
+        return new LiveMatch(data, this.assets);
     }
 }
 
