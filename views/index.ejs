@@ -1,2 +1,25 @@
-<h1> Hello <%= name %>, Level: <%= summoner.summonerLevel %></h1>
-<img src=<%= summoner.getProfileIcon() %> width="500" height="500">
+
+<div>
+    <img src=<%= summoner.getProfileIcon() %> >
+</div>
+<div style="padding-left: 10%; height:100px;">
+    <p> Hello <%= name %>! </p>
+    <p>Level: <%= summoner.summonerLevel %></p>
+    <p>Rank: <%= summoner.summonerRank %></p> 
+</div>
+
+
+
+
+<style>
+    img{
+        width:200px;
+        height: 200px; 
+        border-radius: 50%;
+        float: left;
+    }
+    p {
+        font-family:courier;
+        font-size:200%
+    }
+</style>
