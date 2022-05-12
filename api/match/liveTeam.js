@@ -15,8 +15,10 @@ class LiveTeam {
         }
 
         this.bans = [];
-        for (let i = 0; i < this.teamsize; i++) {
-            this.bans[i] = data.bannedChampions[5 * team + i].championId;
+        if (data.bannedChampions.length > 0) {
+            for (let i = 0; i < this.teamsize; i++) {
+                this.bans[i] = data.bannedChampions[5 * team + i].championId;
+            }
         }
     }
 }

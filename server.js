@@ -1,7 +1,8 @@
 "use strict";
-const port = 3000,
-express = require("express"),
-app = express();
+const port = 3000;
+const express = require("express");
+const mongoose = require("mongoose");
+const app = express();
 
 const controller= require("./controllers/homeController.js")
 const errorController = require("./controllers/errorController.js")
@@ -31,6 +32,10 @@ app.use(
         extended: false
     })
 );
+
+mongoose.connect('mongodb://localhost:27017/lvlup', {useNewUrlParser: true}, () => {
+    console.log("Connected to DB");
+});
 
 
 
