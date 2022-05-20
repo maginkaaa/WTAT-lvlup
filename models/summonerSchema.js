@@ -1,3 +1,4 @@
+const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 const SummonerSchema = mongoose.Schema({
@@ -33,6 +34,9 @@ const SummonerSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  matchIds: [{
+    type: String
+  }],
   lastUpdate: {
     type: Date,
     default: Date.now

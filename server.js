@@ -56,6 +56,11 @@ app.get("/:summonerName/:id", controller.renderPage);
 // post content (curl for now)
 app.post("/post", controller.postContent);
 
+app.get("/summoners", controller.getAllSummoners, (req, res, next) => {
+    console.log(req.data);
+    res.send(req.data);
+});
+
 // needs to be after get calls
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);

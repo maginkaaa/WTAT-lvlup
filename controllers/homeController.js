@@ -108,3 +108,17 @@ exports.renderPage = async (req, res) => {
 
     res.render("index", { name: summonerName, summoner: summoner});
 }
+
+exports.getAllSummoners = (req, res) => {
+    Summoners.find({})
+    .exec().then((summoners) => {
+   res.send(summoners);
+    })
+    .catch((error) => {
+   console.log(error.message);
+   return [];
+    })
+    .then(() => {
+   console.log("promise complete");
+    });
+};
