@@ -1,6 +1,7 @@
+const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
-const SummonerSchema = mongoose.Schema({
+const SummonerSchema = new Schema({
   summonerId:  {
     type: String,
     required: true
@@ -33,6 +34,9 @@ const SummonerSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  matchIds: [{
+    type: String
+  }],
   lastUpdate: {
     type: Date,
     default: Date.now
@@ -57,3 +61,23 @@ SummonerSchema.methods.getInfo = function() {
   .find({zipCode: this.zipCode})
   .exec();
  };
+
+userSchema.pre("save", function(next) {
+  let user = this;
+  bcrypt.hash(user.password, 10).then(hash => {
+  user.password = hash;
+  next();
+  })
+  .catch(error => {
+ console.log(`Error in hashing password: ${error.message}`);
+ next(error);
+  });
+ });
+ userSchema.methods.passwordComparison = function(inputPassword){
+  let user = this;
+  return bcrypt.compare(inputPassword, user.password);
+ };
+
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email"
+});

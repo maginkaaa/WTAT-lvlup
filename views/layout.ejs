@@ -11,7 +11,23 @@
 </style></head>
 
 <body>
-
+    <% if (loggedIn) { %>
+        Logged in as <a href="<%=`/users/${currentUser._id}`%>">
+       ➥ <%= currentUser.fullName %></a>
+       <%} else {%>
+        <a href="/users/login">Log In</a>
+    <% } %>
+    
+    <div class="flashes">
+        <% if (flashMessages) { %>
+         <% if (flashMessages.success) { %>
+         <div class="flash success"><%= flashMessages.success %></div>
+         <% } else if (flashMessages.error) { %>
+         <div class="flash error"><%= flashMessages.error %></div>
+         <% } %>
+        <% } %>
+    </div>
+    
     <div id="nav">My Stats Team Stats Champion Stats Runes</div>
     <%- body %>
         <div id="footer"></div>

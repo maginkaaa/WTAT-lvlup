@@ -1,6 +1,7 @@
+const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
-const SummonerSchema = mongoose.Schema({
+const SummonerSchema = new mongoose.Schema({
   summonerId:  {
     type: String,
     required: true
@@ -33,6 +34,9 @@ const SummonerSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  matchIds: [{
+    type: String
+  }],
   lastUpdate: {
     type: Date,
     default: Date.now
@@ -41,19 +45,18 @@ const SummonerSchema = mongoose.Schema({
     type: Number,
     min: [10000, "Zip code too short"],
     max: 99999
-  }
+    }
 });
 
 module.exports = mongoose.model("summoner", SummonerSchema);
 
-SummonerSchema.methods.getInfo = function() {
-  return `Summoner ID: ${this.summonerId} Account ID: ${this.accountId} Puuid: ${this.puuid} Name: ${this.name} Profile Icon: ${this.profileIconId} 
-  Revision Date:${this.revisionDate} Summoner Level:${this.summonerLevel} Region:${this.region} Match IDs:${this.matchIds} Last Update:${this.lastUpdate}
-  Zip Code:${this.zipCode}`;
- };
+subscriberSchema.methods.getInfo = function() {
+    return `Name: ${this.name} Email: ${this.email} Zip Code:
+   ➥ ${this.zipCode}`;
+};
 
- SummonerSchema.methods.findLocalSubscribers = function() {
-  return this.model("Summoner")
-  .find({zipCode: this.zipCode})
-  .exec();
- };
+subscriberSchema.methods.findLocalSubscribers = function() {
+    return this.model("Subscriber")
+    .find({zipCode: this.zipCode})
+    .exec();
+   };
