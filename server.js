@@ -37,7 +37,7 @@ mongoose.connect('mongodb://localhost:27017/lvlup', {useNewUrlParser: true}, () 
     console.log("Connected to DB");
 });
 
-
+app.get("/api/:livematch/:id" , controller.getLiveMatch);
 
 app.get("/champion-stats/:championName/:id", controller.sendReqParam);
 

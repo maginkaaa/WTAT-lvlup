@@ -62,14 +62,18 @@ class Api {
     }
 
     async getSummonerByName(name, region) {
+        console.log(name)
+        console.log(region)
         const endpoint = new PlatformEndpoints(region, this.key);
         
         const request = endpoint.getSummoner(name);
         const response = await this.http.request(request);
         let data = await response.json();
-        
-        if ("status" in data && data.status.status_code == 404)
+
+        if ("status" in data && data.status.status_code == 404) {
             console.log("Summoner not found");
+            return null;
+        }
             
         return new Summoner(data, region);
     }
